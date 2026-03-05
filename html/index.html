@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JLA Soluciones - En Vivo</title>
+
+<link href="https://vjs.zencdn.net/8.6.1/video-js.css" rel="stylesheet">
+
+<style>
+/* ===== GLOBAL ===== */
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: radial-gradient(circle at top, #1a1a1a, #0f0f0f);
+    color: #fff;
+}
+
+/* ===== HEADER ===== */
+.header {
+    text-align: center;
+    margin-top: 25px;
+}
+
+.live-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: #1a1a1a;
+    padding: 6px 16px;
+    border-radius: 20px;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.dot {
+    width: 10px;
+    height: 10px;
+    background: red;
+    border-radius: 50%;
+    animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+    0% { opacity: 1; }
+    50% { opacity: 0.3; }
+    100% { opacity: 1; }
+}
+
+/* ===== LAYOUT ===== */
+.main-layout {
+    max-width: 1300px;
+    margin: 30px auto;
+    padding: 0 15px;
+    display: grid;
+    grid-template-columns: 1fr;
+}
+
+/* ===== VIDEO ===== */
+.video-js {
+    width: 100%;
+    max-width: 800px;  /* ancho máximo en PC */
+    height: auto;      /* altura proporcional */
+    margin: 0 auto;    /* centrar horizontalmente */
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+/* Aseguramos que el video interno respete el contenedor */
+.video-js .vjs-tech {
+    width: 100% !important;
+    height: auto !important;
+}
+
+/* Móvil: ocupar casi todo el ancho */
+@media screen and (max-width: 768px) {
+    .video-js {
+        max-width: 95%;  /* casi todo el ancho del móvil */
+    }
+}
+
+/* ===== BOTÓN VOLVER ===== */
+.btn-live {
+    display: none;
+    margin-top: 10px;
+    padding: 10px 22px;
+    font-size: 14px;
+    font-weight: 600;
+    background: #e10600;
+    border: none;
+    border-radius: 30px;
+    color: white;
+    cursor: pointer;
+}
+
+.btn-live:hover {
+    background: #ff1a1a;
+}
+
+/* ===== CONTENEDOR CENTRADO ===== */
+.video-status {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 15px;
+    gap: 8px;
+}
+
+/* ===== OFFLINE ===== */
+.offline-message {
+    color: #ff4444;
+    font-weight: bold;
+    text-align: center;
+}
+
+/* ===== FOOTER ===== */
+footer {
+    text-align: center;
+    margin: 35px 0 20px;
+    font-size: 13px;
+    color: #666;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="header">
+    <div class="live-badge">
+        <span class="dot"></span> EN VIVO
+    </div>
+    <h1>JLA Soluciones</h1>
+</div>
+
+<div class="main-layout">
+
+    <!-- VIDEO -->
+    <div>
+        <video
+            id="liveStream"
+            class="video-js vjs-big-play-centered"
+            controls
+            autoplay
+            muted
+            playsinline
+        ></video>
+
+        <div class="video-status">
+            <button class="btn-live" onclick="volverAlDirecto()">
+                ⏩ VOLVER AL DIRECTO
+            </button>
+            <div id="offlineMsg"></div>
+        </div>
+    </div>
+
+</div>
+
+<footer>
+© 2026 JLA Soluciones
+</footer>
+
+<script src="https://vjs.zencdn.net/8.6.1/video.min.js"></script>
+
+<script>
+const player = videojs('liveStream', {
+    fluid: true,
+    liveui: true,
+    autoplay: true,
+    muted: true
+});
+
+player.src({
+    src: 'https://www.jlasoluciones.com/hls/live.m3u8',
+    type: 'application/x-mpegURL'
+});
+
+player.on('error', function() {
+    document.getElementById('offlineMsg').innerHTML =
+        "<div class='offline-message'>⚠️ La transmisión no está disponible.</div>";
+});
+
+player.on('timeupdate', function () {
+    if (player.liveTracker && !player.liveTracker.atLiveEdge()) {
+        document.querySelector('.btn-live').style.display = "inline-block";
+    } else {
+        document.querySelector('.btn-live').style.display = "none";
+    }
+});
+
+function volverAlDirecto() {
+    if (player.liveTracker) {
+        player.liveTracker.seekToLiveEdge();
+    }
+}
+
+/* ===== VIEWERS (HEARTBEAT DEFINITIVO) ===== */
+setInterval(() => {
+    fetch('/stream/viewer_ping.php');
+}, 5000);
+</script>
+
+</body>
+</html>
