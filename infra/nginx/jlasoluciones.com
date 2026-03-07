@@ -5,7 +5,7 @@
 server {
     listen 80;
     server_name jlasoluciones.com www.jlasoluciones.com;
-    return 301 https://www.jlasoluciones.com$request_uri ;
+    return 301 https://www.jlasoluciones.com$request_uri  ;
 
 }
 
