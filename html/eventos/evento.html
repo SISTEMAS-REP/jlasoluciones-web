@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title id="tituloPagina">Evento</title>
+
+<link href="https://vjs.zencdn.net/8.6.1/video-js.css" rel="stylesheet">
+<link rel="stylesheet" href="/assets/css/evento.css">
+
+</head>
+
+<body>
+
+<header class="topbar">
+    <img id="logoEmpresa" class="logo">
+    <h1 id="tituloEvento"></h1>
+</header>
+
+<main class="container">
+
+<div class="video-area">
+
+<video
+id="liveStream"
+class="video-js vjs-big-play-centered"
+controls
+autoplay
+muted
+playsinline
+></video>
+
+</div>
+
+<div class="side">
+
+<div class="agenda">
+<h2>Agenda</h2>
+<ul id="agendaLista"></ul>
+</div>
+
+</div>
+
+</main>
+
+<script src="https://vjs.zencdn.net/8.6.1/video.min.js"></script>
+<script src="/assets/js/evento.js"></script>
+
+</body>
+</html>
