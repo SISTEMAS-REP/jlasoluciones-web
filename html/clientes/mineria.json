@@ -1,0 +1,12 @@
+{
+ "nombre": "Evento Mineria JLA",
+ "logo": "mineria.png",
+ "stream": "/hls/live.m3u8",
+
+ "agenda": [
+  "09:00 Bienvenida",
+  "09:30 Presentación de plataforma",
+  "10:30 Streaming de prueba",
+  "11:30 Preguntas del público"
+ ]
+}
