@@ -1,7 +1,7 @@
 {
  "nombre": "Evento Demo JLA",
  "logo": "demo.png",
- "stream": "https://www.jlasoluciones.com/hls/live.m3u8",
+ "stream": "/hls/live.m3u8",
 
  "agenda": [
   "09:00 Bienvenida",
