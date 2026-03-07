@@ -22,25 +22,32 @@
 
 <div class="video-area">
 
-<video
-id="liveStream"
-class="video-js vjs-big-play-centered"
-controls
-autoplay
-muted
-playsinline
-data-setup='{}'
-></video>
+    <video
+    id="liveStream"
+    class="video-js vjs-big-play-centered"
+    controls
+    autoplay
+    muted
+    playsinline
+    data-setup='{}'
+    ></video>
 
+    <!-- BOTÓN VOLVER AL DIRECTO (flotante) -->
+    <button class="btn-live" onclick="volverAlDirecto()">
+        ⏩ VOLVER AL DIRECTO
+    </button>
+
+    <!-- MENSAJE OFFLINE -->
+    <div id="offlineMsg"></div>
 
 </div>
 
 <div class="side">
 
-<div class="agenda">
-<h2>Agenda</h2>
-<ul id="agendaLista"></ul>
-</div>
+    <div class="agenda">
+        <h2>Agenda</h2>
+        <ul id="agendaLista"></ul>
+    </div>
 
 </div>
 

@@ -1,8 +1,8 @@
-// detectar subdominio
+// DETECTAR SUBDOMINIO
 const host = window.location.hostname;
 const cliente = host.split('.')[0];
 
-// cargar config del cliente
+// CARGAR CONFIG DEL CLIENTE
 fetch("/clientes/" + cliente + ".json")
 .then(res => {
     if (!res.ok) throw new Error("JSON no encontrado");
@@ -10,12 +10,12 @@ fetch("/clientes/" + cliente + ".json")
 })
 .then(data => {
 
+    // Títulos y logo
     document.getElementById("tituloPagina").textContent = data.nombre;
     document.getElementById("tituloEvento").textContent = data.nombre;
-
     document.getElementById("logoEmpresa").src = "/logos/" + data.logo;
 
-    // crear agenda
+    // Crear agenda
     const agendaLista = document.getElementById("agendaLista");
     agendaLista.innerHTML = "";
 
@@ -25,7 +25,7 @@ fetch("/clientes/" + cliente + ".json")
         agendaLista.appendChild(li);
     });
 
-    // iniciar reproductor
+    // INICIAR REPRODUCTOR
     const player = videojs('liveStream', {
         fluid: true,
         liveui: true,
@@ -38,6 +38,33 @@ fetch("/clientes/" + cliente + ".json")
         type: 'application/x-mpegURL'
     });
 
+    // ===== ERROR / OFFLINE =====
+    player.on('error', function() {
+        const offlineMsg = document.getElementById('offlineMsg');
+        if (offlineMsg) {
+            offlineMsg.innerHTML =
+                "<div class='offline-message'>⚠️ La transmisión no está disponible.</div>";
+        }
+    });
+
+    // ===== BOTÓN VOLVER AL DIRECTO =====
+    player.on('timeupdate', function () {
+        const btnLive = document.querySelector('.btn-live');
+        if (!btnLive) return;
+
+        if (player.liveTracker && !player.liveTracker.atLiveEdge()) {
+            btnLive.style.display = "inline-block";
+        } else {
+            btnLive.style.display = "none";
+        }
+    });
+
+    window.volverAlDirecto = function() {
+        if (player.liveTracker) {
+            player.liveTracker.seekToLiveEdge();
+        }
+    };
+
     // ===== VIEWERS HEARTBEAT =====
     setInterval(() => {
         fetch('/stream/viewer_ping.php');
@@ -46,5 +73,10 @@ fetch("/clientes/" + cliente + ".json")
 })
 .catch(err => {
     console.error(err);
+
+    // Fallback si JSON no existe
     document.getElementById("tituloEvento").textContent = "Evento";
+
+    const agendaLista = document.getElementById("agendaLista");
+    if (agendaLista) agendaLista.innerHTML = "";
 });
