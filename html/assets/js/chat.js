@@ -14,7 +14,7 @@ document.querySelectorAll('.tab-btn').forEach(btn => {
     });
 });
 
-// Chat simple (solo front-end)
+// Chat simple front-end
 const chatInput = document.getElementById('chatText');
 const chatBtn = document.getElementById('sendChat');
 const chatMessages = document.getElementById('chatMessages');
@@ -30,9 +30,6 @@ chatBtn.addEventListener('click', () => {
     }
 });
 
-// Permite enviar mensaje con Enter
 chatInput.addEventListener('keypress', (e) => {
-    if (e.key === 'Enter') {
-        chatBtn.click();
-    }
+    if (e.key === 'Enter') chatBtn.click();
 });
