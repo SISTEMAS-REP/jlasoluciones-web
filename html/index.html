@@ -1,204 +1,241 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>JLA Soluciones - En Vivo</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Streaming Profesional | JLA Solutions</title>
+    <style>
+        /* RESET */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-<link href="https://vjs.zencdn.net/8.6.1/video-js.css" rel="stylesheet">
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: #f7f7f7;
+            color: #222;
+            line-height: 1.6;
+        }
 
-<style>
-/* ===== GLOBAL ===== */
-body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background: radial-gradient(circle at top, #1a1a1a, #0f0f0f);
-    color: #fff;
-}
+        /* HERO BANNER */
+        .hero {
+            height: 90vh;
+            background: linear-gradient(135deg, #0f172a, #1e3a8a);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+        }
 
-/* ===== HEADER ===== */
-.header {
-    text-align: center;
-    margin-top: 25px;
-}
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 10px;
+        }
 
-.live-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    background: #1a1a1a;
-    padding: 6px 16px;
-    border-radius: 20px;
-    font-weight: bold;
-    font-size: 14px;
-}
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+        }
 
-.dot {
-    width: 10px;
-    height: 10px;
-    background: red;
-    border-radius: 50%;
-    animation: pulse 1.5s infinite;
-}
+        /* BOTONES */
+        .btn-primary, .btn-secondary {
+            display: inline-block;
+            padding: 12px 24px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: transform 0.2s ease, opacity 0.2s;
+        }
 
-@keyframes pulse {
-    0% { opacity: 1; }
-    50% { opacity: 0.3; }
-    100% { opacity: 1; }
-}
+        .btn-primary {
+            background: #2563eb;
+            color: white;
+        }
 
-/* ===== LAYOUT ===== */
-.main-layout {
-    max-width: 1300px;
-    margin: 30px auto;
-    padding: 0 15px;
-    display: grid;
-    grid-template-columns: 1fr;
-}
+        .btn-secondary {
+            background: white;
+            color: #2563eb;
+        }
 
-/* ===== VIDEO ===== */
-.video-js {
-    width: 100%;
-    max-width: 800px;  /* ancho máximo en PC */
-    height: auto;      /* altura proporcional */
-    margin: 0 auto;    /* centrar horizontalmente */
-    border-radius: 12px;
-    overflow: hidden;
-}
+        .btn-primary:hover, .btn-secondary:hover {
+            transform: scale(1.05);
+            opacity: 0.9;
+        }
 
-/* Aseguramos que el video interno respete el contenedor */
-.video-js .vjs-tech {
-    width: 100% !important;
-    height: auto !important;
-}
+        /* SECCIONES */
+        .section {
+            padding: 60px 20px;
+            text-align: center;
+        }
 
-/* Móvil: ocupar casi todo el ancho */
-@media screen and (max-width: 768px) {
-    .video-js {
-        max-width: 95%;  /* casi todo el ancho del móvil */
-    }
-}
+        .section.dark {
+            background: #111827;
+            color: white;
+        }
 
-/* ===== BOTÓN VOLVER ===== */
-.btn-live {
-    display: none;
-    margin-top: 10px;
-    padding: 10px 22px;
-    font-size: 14px;
-    font-weight: 600;
-    background: #e10600;
-    border: none;
-    border-radius: 30px;
-    color: white;
-    cursor: pointer;
-}
+        /* GRID */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 20px;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
 
-.btn-live:hover {
-    background: #ff1a1a;
-}
+        .card {
+            background: white;
+            padding: 20px;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            transition: transform 0.2s ease;
+        }
 
-/* ===== CONTENEDOR CENTRADO ===== */
-.video-status {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-top: 15px;
-    gap: 8px;
-}
+        .card:hover {
+            transform: translateY(-6px);
+        }
 
-/* ===== OFFLINE ===== */
-.offline-message {
-    color: #ff4444;
-    font-weight: bold;
-    text-align: center;
-}
+        /* PLANES */
+        .plan {
+            position: relative;
+        }
 
-/* ===== FOOTER ===== */
-footer {
-    text-align: center;
-    margin: 35px 0 20px;
-    font-size: 13px;
-    color: #666;
-}
+        .plan.popular {
+            border: 2px solid #2563eb;
+        }
 
-</style>
+        .badge {
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            background: #2563eb;
+            color: white;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+        }
+
+        /* FORM */
+        .form {
+            max-width: 500px;
+            margin: 0 auto;
+            display: grid;
+            gap: 12px;
+        }
+
+        .form input,
+        .form textarea {
+            width: 100%;
+            padding: 12px;
+            border-radius: 10px;
+            border: 1px solid #ccc;
+        }
+
+        .form button {
+            padding: 12px;
+            background: #2563eb;
+            color: white;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+        }
+
+        /* FOOTER */
+        footer {
+            text-align: center;
+            padding: 20px;
+            background: #111;
+            color: white;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
 </head>
-
 <body>
 
-<div class="header">
-    <div class="live-badge">
-        <span class="dot"></span> EN VIVO
-    </div>
-    <h1>JLA Soluciones Prueba</h1>
-</div>
-
-<div class="main-layout">
-
-    <!-- VIDEO -->
+<header class="hero">
     <div>
-        <video
-            id="liveStream"
-            class="video-js vjs-big-play-centered"
-            controls
-            autoplay
-            muted
-            playsinline
-        ></video>
+        <h1>Streaming Profesional para Eventos</h1>
+        <p>Transmisiones en vivo con calidad HD, chat y grabaciones</p>
+        <a href="#planes" class="btn-primary">Ver Planes</a>
+    </div>
+</header>
 
-        <div class="video-status">
-            <button class="btn-live" onclick="volverAlDirecto()">
-                ⏩ VOLVER AL DIRECTO
-            </button>
-            <div id="offlineMsg"></div>
+<section id="beneficios" class="section">
+    <h2>Beneficios</h2>
+    <div class="grid">
+        <div class="card">
+            <h3>✔ Streaming HD</h3>
+            <p>Transmisión estable con tecnología HLS/RTMP</p>
+        </div>
+        <div class="card">
+            <h3>✔ Subdominios</h3>
+            <p>Cada cliente con su propio espacio</p>
+        </div>
+        <div class="card">
+            <h3>✔ Chat en Vivo</h3>
+            <p>Interacción con participantes</p>
+        </div>
+        <div class="card">
+            <h3>✔ Grabaciones</h3>
+            <p>Acceso a contenido posterior</p>
         </div>
     </div>
+</section>
 
-</div>
+<section id="demo" class="section dark">
+    <h2>Prueba la Demo</h2>
+    <p>Experiencia real de streaming para que evalúes calidad</p>
+    <a href="https://demo.jlasoluciones.pe" class="btn-secondary" target="_blank">
+        Ver Demo en Vivo
+    </a>
+</section>
+
+<section id="planes" class="section">
+    <h2>Planes</h2>
+    <div class="grid">
+        <div class="card plan">
+            <h3>Básico</h3>
+            <p>Streaming + Chat</p>
+            <strong>S/ 199 / mes</strong>
+            <button class="btn-primary">Contratar</button>
+        </div>
+        <div class="card plan popular">
+            <span class="badge">Popular</span>
+            <h3>Profesional</h3>
+            <p>Streaming + Grabaciones + Subdominio</p>
+            <strong>S/ 399 / mes</strong>
+            <button class="btn-primary">Contratar</button>
+        </div>
+        <div class="card plan">
+            <h3>Enterprise</h3>
+            <p>Solución personalizada</p>
+            <strong>Consultar</strong>
+            <button class="btn-primary">Contactar</button>
+        </div>
+    </div>
+</section>
+
+<section id="contacto" class="section dark">
+    <h2>Contáctanos</h2>
+    <form class="form">
+        <input type="text" placeholder="Nombre" required>
+        <input type="email" placeholder="Correo" required>
+        <textarea placeholder="Mensaje"></textarea>
+        <button type="submit">Enviar Mensaje</button>
+    </form>
+</section>
 
 <footer>
-© 2026 JLA Soluciones
+    <p>© 2026 — Plataforma de Streaming Profesional</p>
 </footer>
-
-<script src="https://vjs.zencdn.net/8.6.1/video.min.js"></script>
-
-<script>
-const player = videojs('liveStream', {
-    fluid: true,
-    liveui: true,
-    autoplay: true,
-    muted: true
-});
-
-player.src({
-    src: 'https://www.jlasoluciones.com/hls/live.m3u8',
-    type: 'application/x-mpegURL'
-});
-
-player.on('error', function() {
-    document.getElementById('offlineMsg').innerHTML =
-        "<div class='offline-message'>⚠️ La transmisión no está disponible.</div>";
-});
-
-player.on('timeupdate', function () {
-    if (player.liveTracker && !player.liveTracker.atLiveEdge()) {
-        document.querySelector('.btn-live').style.display = "inline-block";
-    } else {
-        document.querySelector('.btn-live').style.display = "none";
-    }
-});
-
-function volverAlDirecto() {
-    if (player.liveTracker) {
-        player.liveTracker.seekToLiveEdge();
-    }
-}
-
-/* ===== VIEWERS (HEARTBEAT DEFINITIVO) ===== */
-setInterval(() => {
-    fetch('/stream/viewer_ping.php');
-}, 5000);
-</script>
 
 </body>
 </html>
