@@ -82,19 +82,19 @@ body {
 
 .btn-live {
     display: none;
-    background: #0f172a;
-    color: #fff;
-    border: 1px solid #1e293b;
-    padding: 6px 12px;
-    border-radius: 8px;
-    font-size: 12px;
-    width: fit-content;
+    margin-top: 10px;
+    padding: 10px 22px;
+    font-size: 14px;
+    font-weight: 600;
+    background: #e10600;
+    border: none;
+    border-radius: 30px;
+    color: white;
     cursor: pointer;
-    transition: 0.2s;
 }
 
 .btn-live:hover {
-    background: #1e293b;
+    background: #ff1a1a;
 }
 
 #offlineMsg {

@@ -56,12 +56,13 @@ fetch("/clientes/" + cliente + ".json")
 
     // ===== BOTÓN VOLVER AL DIRECTO =====
     player.on('timeupdate', function () {
-        if (!btnLive) return;
+        const btn = document.querySelector('.btn-live');
+        if (!btn) return;
 
         if (player.liveTracker && !player.liveTracker.atLiveEdge()) {
-            btnLive.style.display = "inline-block";
+            btn.style.display = "inline-block";
         } else {
-            btnLive.style.display = "none";
+            btn.style.display = "none";
         }
     });
 
@@ -71,6 +72,7 @@ fetch("/clientes/" + cliente + ".json")
             if (btnLive) btnLive.style.display = "none";
         }
     };
+
 
     // ===== VIEWERS HEARTBEAT =====
     setInterval(() => {
