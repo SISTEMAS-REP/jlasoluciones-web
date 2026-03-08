@@ -1,8 +1,12 @@
+// ================================
 // DETECTAR SUBDOMINIO
+// ================================
 const host = window.location.hostname;
 const cliente = host.split('.')[0];
 
+// ================================
 // CARGAR CONFIG DEL CLIENTE
+// ================================
 fetch("/clientes/" + cliente + ".json")
 .then(res => {
     if (!res.ok) throw new Error("JSON no encontrado");
@@ -10,22 +14,21 @@ fetch("/clientes/" + cliente + ".json")
 })
 .then(data => {
 
-    // Títulos y logo
+    // ===== TÍTULOS Y LOGO =====
     document.getElementById("tituloPagina").textContent = data.nombre;
     document.getElementById("tituloEvento").textContent = data.nombre;
     document.getElementById("logoEmpresa").src = "/logos/" + data.logo;
 
-    // Crear agenda
+    // ===== AGENDA =====
     const agendaLista = document.getElementById("agendaLista");
     agendaLista.innerHTML = "";
-
     data.agenda.forEach(item => {
         let li = document.createElement("li");
         li.textContent = item;
         agendaLista.appendChild(li);
     });
 
-    // INICIAR REPRODUCTOR
+    // ===== INICIAR REPRODUCTOR =====
     const player = videojs('liveStream', {
         fluid: true,
         liveui: true,
@@ -48,10 +51,9 @@ fetch("/clientes/" + cliente + ".json")
     });
 
     // ===== BOTÓN VOLVER AL DIRECTO =====
+    const btnLive = document.querySelector('.btn-live');
     player.on('timeupdate', function () {
-        const btnLive = document.querySelector('.btn-live');
         if (!btnLive) return;
-
         if (player.liveTracker && !player.liveTracker.atLiveEdge()) {
             btnLive.style.display = "inline-block";
         } else {
@@ -67,16 +69,15 @@ fetch("/clientes/" + cliente + ".json")
 
     // ===== VIEWERS HEARTBEAT =====
     setInterval(() => {
-        fetch('/stream/viewer_ping.php');
+        fetch('/stream/viewer_ping.php').catch(err => console.warn(err));
     }, 5000);
 
 })
 .catch(err => {
     console.error(err);
 
-    // Fallback si JSON no existe
+    // ===== FALLBACK =====
     document.getElementById("tituloEvento").textContent = "Evento";
-
     const agendaLista = document.getElementById("agendaLista");
     if (agendaLista) agendaLista.innerHTML = "";
 });
