@@ -73,28 +73,27 @@ body {
 /* VIDEO STATUS (BOTÓN + MENSAJE) */
 /* ================================ */
 .video-status {
+    margin-top: 8px;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    margin-top: 15px;
-    gap: 8px;
+    gap: 6px;
 }
 
 .btn-live {
     display: none;
-    margin-top: 10px;
-    padding: 10px 22px;
-    font-size: 14px;
-    font-weight: 600;
-    background: #e10600;
-    border: none;
-    border-radius: 30px;
-    color: white;
+    background: #0f172a;
+    color: #fff;
+    border: 1px solid #1e293b;
+    padding: 6px 12px;
+    border-radius: 8px;
+    font-size: 12px;
+    width: fit-content;
     cursor: pointer;
+    transition: 0.2s;
 }
 
 .btn-live:hover {
-    background: #ff1a1a;
+    background: #1e293b;
 }
 
 #offlineMsg {
