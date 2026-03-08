@@ -21,12 +21,14 @@ fetch("/clientes/" + cliente + ".json")
 
     // ===== AGENDA =====
     const agendaLista = document.getElementById("agendaLista");
-    agendaLista.innerHTML = "";
-    data.agenda.forEach(item => {
-        let li = document.createElement("li");
-        li.textContent = item;
-        agendaLista.appendChild(li);
-    });
+    if (agendaLista) {
+        agendaLista.innerHTML = "";
+        data.agenda.forEach(item => {
+            let li = document.createElement("li");
+            li.textContent = item;
+            agendaLista.appendChild(li);
+        });
+    }
 
     // ===== INICIAR REPRODUCTOR =====
     const player = videojs('liveStream', {
@@ -41,19 +43,21 @@ fetch("/clientes/" + cliente + ".json")
         type: 'application/x-mpegURL'
     });
 
+    const btnLive = document.querySelector('.btn-live');
+    const offlineMsg = document.getElementById('offlineMsg');
+
     // ===== ERROR / OFFLINE =====
     player.on('error', function() {
-        const offlineMsg = document.getElementById('offlineMsg');
         if (offlineMsg) {
             offlineMsg.innerHTML =
-                "<div class='offline-message'>⚠️ La transmisión no está disponible.</div>";
+                "<div class='offline-message'>🚫 La transmisión no está disponible.<br>Por favor intenta nuevamente más tarde.</div>";
         }
     });
 
     // ===== BOTÓN VOLVER AL DIRECTO =====
-    const btnLive = document.querySelector('.btn-live');
     player.on('timeupdate', function () {
         if (!btnLive) return;
+
         if (player.liveTracker && !player.liveTracker.atLiveEdge()) {
             btnLive.style.display = "inline-block";
         } else {
@@ -64,6 +68,7 @@ fetch("/clientes/" + cliente + ".json")
     window.volverAlDirecto = function() {
         if (player.liveTracker) {
             player.liveTracker.seekToLiveEdge();
+            if (btnLive) btnLive.style.display = "none";
         }
     };
 
@@ -77,7 +82,9 @@ fetch("/clientes/" + cliente + ".json")
     console.error(err);
 
     // ===== FALLBACK =====
-    document.getElementById("tituloEvento").textContent = "Evento";
+    const titulo = document.getElementById("tituloEvento");
+    if (titulo) titulo.textContent = "Evento";
+
     const agendaLista = document.getElementById("agendaLista");
     if (agendaLista) agendaLista.innerHTML = "";
 });
