@@ -1,8 +1,8 @@
+// ================================
+// DETECTAR SUBDOMINIO
+// ================================
 window.addEventListener('load', () => {
 
-    // ================================
-    // DETECTAR SUBDOMINIO
-    // ================================
     const host = window.location.hostname;
     const cliente = host.split('.')[0];
 
@@ -79,6 +79,8 @@ window.addEventListener('load', () => {
         setInterval(() => {
             fetch('/stream/viewer_ping.php').catch(err => console.warn(err));
         }, 5000);
+
+        console.log("estado btnLive:", btnLive);
 
     })
     .catch(err => {
