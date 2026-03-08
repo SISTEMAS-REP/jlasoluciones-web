@@ -56,23 +56,18 @@ fetch("/clientes/" + cliente + ".json")
 
     // ===== BOTÓN VOLVER AL DIRECTO =====
     player.on('timeupdate', function () {
-        const btn = document.querySelector('.btn-live');
-        if (!btn) return;
-
-        if (player.liveTracker && !player.liveTracker.atLiveEdge()) {
-            btn.style.display = "inline-block";
-        } else {
-            btn.style.display = "none";
-        }
-    });
+    if (player.liveTracker && !player.liveTracker.atLiveEdge()) {
+        document.querySelector('.btn-live').style.display = "inline-block";
+    } else {
+        document.querySelector('.btn-live').style.display = "none";
+    }
+});
 
     window.volverAlDirecto = function() {
         if (player.liveTracker) {
             player.liveTracker.seekToLiveEdge();
-            if (btnLive) btnLive.style.display = "none";
         }
     };
-
 
     // ===== VIEWERS HEARTBEAT =====
     setInterval(() => {
