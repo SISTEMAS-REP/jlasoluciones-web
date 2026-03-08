@@ -102,6 +102,10 @@ body {
     background: #1e293b;
 }
 
+.btn-live .icon {
+    margin-right: 6px;
+}
+
 #offlineMsg {
     font-size: 12px;
     color: #ff6666;
