@@ -1,8 +1,4 @@
-// ================================
-// CHAT Y TABS
-// ================================
-
-// Cambiar tabs Agenda / Grabaciones
+// TABS
 document.querySelectorAll('.tab-btn').forEach(btn => {
     btn.addEventListener('click', () => {
         document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
@@ -14,7 +10,7 @@ document.querySelectorAll('.tab-btn').forEach(btn => {
     });
 });
 
-// Chat simple front-end
+// CHAT SIMPLE FRONT-END
 const chatInput = document.getElementById('chatText');
 const chatBtn = document.getElementById('sendChat');
 const chatMessages = document.getElementById('chatMessages');
