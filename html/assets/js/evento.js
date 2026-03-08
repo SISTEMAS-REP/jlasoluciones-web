@@ -56,12 +56,14 @@ fetch("/clientes/" + cliente + ".json")
 
     // ===== BOTÓN VOLVER AL DIRECTO =====
     player.on('timeupdate', function () {
-    if (player.liveTracker && !player.liveTracker.atLiveEdge()) {
-        document.querySelector('.btn-live').style.display = "inline-block";
-    } else {
-        document.querySelector('.btn-live').style.display = "none";
-    }
-});
+        if (!btnLive) return; // por seguridad
+
+        if (player.liveTracker && !player.liveTracker.atLiveEdge()) {
+            btnLive.style.display = "inline-block";
+        } else {
+            btnLive.style.display = "none";
+        }
+    });
 
     window.volverAlDirecto = function() {
         if (player.liveTracker) {
@@ -85,3 +87,5 @@ fetch("/clientes/" + cliente + ".json")
     const agendaLista = document.getElementById("agendaLista");
     if (agendaLista) agendaLista.innerHTML = "";
 });
+
+console.log(btnLive);
