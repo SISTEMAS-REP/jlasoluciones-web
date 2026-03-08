@@ -52,7 +52,7 @@ body {
     grid-template-areas:
         "video side"
         "status side";
-    gap: 10px;
+    gap: 5px;
     padding: 20px;
 }
 
