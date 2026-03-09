@@ -1,108 +1,189 @@
-/* RESET */
-* { margin:0; padding:0; box-sizing:border-box; }
+/* ================================ */
+/* RESET BÁSICO */
+/* ================================ */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 
+/* ================================ */
+/* BODY */
+/* ================================ */
 body {
-    font-family:'Arial', sans-serif;
-    background:#f0f2f5;
-    color:#222;
-    line-height:1.5;
+    font-family: 'Arial', sans-serif;
+    background: #d1d5db; /* gris más oscuro */
+    color: #222;
+    line-height: 1.5;
 }
 
-/* CABECERA MODERNA */
+/* ================================ */
+/* TOPBAR MODERNA */
+/* ================================ */
 .topbar {
-    display:flex;
-    align-items:center;
-    gap:16px;
-    padding:20px 30px;
-    background: linear-gradient(90deg,#1e3a8a,#3b82f6);
-    box-shadow:0 4px 12px rgba(0,0,0,0.12);
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 20px 30px;
+    background: linear-gradient(90deg, #1e3a8a, #3b82f6);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.12);
 }
 
-.topbar .logo { max-height:60px; }
-#tituloEvento { font-size:28px; font-weight:700; color:#fff; }
+.topbar .logo {
+    max-height: 60px;
+}
 
-/* CONTENEDOR PRINCIPAL */
+#tituloEvento {
+    font-size: 28px;
+    font-weight: 700;
+    color: #fff;
+}
+
+/* ================================ */
+/* CONTENEDOR PRINCIPAL (AGENDA + VIDEO) */
+/* ================================ */
 .container {
-    display:flex;
-    gap:20px;
-    max-width:1400px;
-    margin:20px auto;
-    padding:0 16px;
+    display: flex;
+    gap: 20px;
+    max-width: 1600px;
+    margin: 20px auto;
+    padding: 0 16px;
+    align-items: flex-start;
 }
 
+/* ================================ */
+/* AGENDA LATERAL */
+/* ================================ */
 .agenda-area {
-    flex:1;
-    display:flex;
-    flex-direction:column;
-    background:#fff;
-    border-radius:12px;
-    padding:16px;
-    box-shadow:0 4px 12px rgba(0,0,0,0.08);
+    flex: 1; /* 25% aprox */
+    display: flex;
+    flex-direction: column;
+    background: #fff;
+    border-radius: 12px;
+    padding: 16px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
 }
 
-.agenda-area h2 { font-size:18px; color:#1e40af; margin-bottom:12px; }
-.agenda-area ul { list-style:none; }
-.agenda-area li { padding:8px 0; border-bottom:1px solid #eee; font-size:14px; color:#334155; }
+.agenda-area h2 {
+    font-size: 18px;
+    color: #1e40af;
+    margin-bottom: 12px;
+}
 
+.agenda-area ul {
+    list-style: none;
+}
+
+.agenda-area li {
+    padding: 8px 0;
+    border-bottom: 1px solid #eee;
+    font-size: 14px;
+    color: #334155;
+}
+
+/* ================================ */
+/* VIDEO AREA */
+/* ================================ */
 .video-area {
-    flex:3;
-    background:#e0e7ff;
-    border-radius:16px;
-    overflow:hidden;
-    box-shadow:0 12px 24px rgba(0,0,0,0.12);
-    aspect-ratio:16/9;
+    flex: 3; /* 75% aprox */
+    background: #e0e7ff;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 12px 24px rgba(0,0,0,0.12);
+    aspect-ratio: 16/9;
 }
 
-/* CHAT */
+/* ================================ */
+/* CHAT AREA */
+/* ================================ */
 .chat-area {
-    max-width:1400px;
-    margin:20px auto;
-    background:#fff;
-    border-radius:12px;
-    padding:12px;
-    height:250px;
-    overflow-y:auto;
-    box-shadow:0 4px 12px rgba(0,0,0,0.08);
-    font-size:14px;
+    max-width: 1600px;
+    margin: 20px auto;
+    background: #fff;
+    border-radius: 12px;
+    padding: 12px;
+    height: 250px;
+    overflow-y: auto;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    font-size: 14px;
 }
 
-/* SECCIÓN GRABACIONES / MATERIALES */
+/* ================================ */
+/* GRABACIONES / MATERIALES */
+/* ================================ */
 .resources-area {
-    max-width:1400px;
-    margin:20px auto 40px auto;
-    background:#fff;
-    border-radius:12px;
-    padding:12px;
-    box-shadow:0 4px 12px rgba(0,0,0,0.08);
+    max-width: 1600px;
+    margin: 20px auto 40px auto;
+    background: #fff;
+    border-radius: 12px;
+    padding: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
 }
 
 .tabs {
-    display:flex;
-    gap:12px;
-    margin-bottom:12px;
+    display: flex;
+    gap: 12px;
+    margin-bottom: 12px;
 }
 
 .tab-button {
-    padding:6px 12px;
-    border:none;
-    border-radius:8px;
-    background:#e2e8f0;
-    cursor:pointer;
-    font-weight:600;
-    transition:0.2s;
+    padding: 6px 12px;
+    border: none;
+    border-radius: 8px;
+    background: #e2e8f0;
+    cursor: pointer;
+    font-weight: 600;
+    transition: 0.2s;
 }
 
 .tab-button.active {
-    background:#3b82f6;
-    color:#fff;
+    background: #3b82f6;
+    color: #fff;
 }
 
-.tab-content ul { list-style:none; }
-.tab-content li { padding:6px 0; border-bottom:1px solid #eee; font-size:14px; color:#334155; }
+.tab-content ul {
+    list-style: none;
+}
 
+.tab-content li {
+    padding: 6px 0;
+    border-bottom: 1px solid #eee;
+    font-size: 14px;
+    color: #334155;
+}
+
+/* ================================ */
+/* FOOTER */
+/* ================================ */
+footer {
+    text-align: center;
+    padding: 12px;
+    background: #1f2937;
+    color: #fff;
+    font-size: 14px;
+    margin-top: 20px;
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+}
+
+/* ================================ */
 /* RESPONSIVE */
-@media(max-width:900px) {
-    .container { flex-direction:column; }
-    .agenda-area { width:100%; margin-bottom:16px; }
-    .chat-area, .resources-area { width:90%; margin:12px auto; height:auto; }
+/* ================================ */
+@media (max-width: 900px) {
+    .container {
+        flex-direction: column;
+    }
+
+    .agenda-area,
+    .video-area {
+        width: 100%;
+        margin-bottom: 16px;
+    }
+
+    .chat-area,
+    .resources-area {
+        width: 95%;
+        margin: 12px auto;
+        height: auto;
+    }
 }
