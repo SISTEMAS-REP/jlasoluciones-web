@@ -13,18 +13,17 @@
 
 <!-- CABECERA MODERNA -->
 <header class="topbar">
-    <div class="logo-title">
-        <img id="logoEmpresa" class="logo" alt="Logo Empresa">
-        <h1 id="tituloEvento">Evento Demo JLA</h1>
-    </div>
+    <img id="logoEmpresa" class="logo" alt="Logo Empresa">
+    <h1 id="tituloEvento"></h1>
 </header>
 
-<!-- BANNER OPCIONAL -->
-<div class="banner">
-    Bienvenido al evento en vivo
-</div>
+<main class="container">
 
-<<main class="container">
+    <!-- AGENDA LATERAL -->
+    <aside class="agenda-area">
+        <h2>Agenda</h2>
+        <ul id="agendaLista"></ul>
+    </aside>
 
     <!-- VIDEO PRINCIPAL -->
     <div class="video-area">
@@ -38,34 +37,20 @@
         ></video>
     </div>
 
-    <!-- CHAT -->
-    <div class="chat-area">
-        <h2>Chat en Vivo</h2>
-        <div id="chatMessages"></div>
-        <div class="chat-input">
-            <input type="text" id="chatText" placeholder="Escribe tu mensaje...">
-            <button id="sendChat">Enviar</button>
-        </div>
-    </div>
-
-    <!-- TABS INFERIORES -->
-    <div class="tabs-container">
-        <div class="tabs">
-            <button class="tab-btn active" data-tab="agendaTab">Agenda</button>
-            <button class="tab-btn" data-tab="grabacionesTab">Grabaciones</button>
-        </div>
-        <div id="agendaTab" class="tab-content active">
-            <ul id="agendaLista"></ul>
-        </div>
-        <div id="grabacionesTab" class="tab-content">
-            <ul id="grabacionesLista"></ul>
-        </div>
-    </div>
-
 </main>
+
+<!-- CHAT -->
+<div class="chat-area" id="chatArea">
+    <!-- Mensajes se cargarán aquí -->
+</div>
+
+<!-- GRABACIONES -->
+<div class="recordings-area" id="recordingsArea">
+    <h2>Grabaciones</h2>
+    <ul id="recordingsList"></ul>
+</div>
 
 <script src="https://vjs.zencdn.net/8.6.1/video.min.js"></script>
 <script src="/assets/js/evento.js"></script>
-<script src="/assets/js/chat.js"></script>
 </body>
 </html>
