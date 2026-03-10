@@ -59,15 +59,7 @@ window.addEventListener('load', () => {
             fluid: true,
             liveui: true,
             autoplay: true,
-            muted: true,
-
-            html5: {
-                vhs: {
-                    overrideNative: true,
-                    liveSyncDurationCount: 3,
-                    liveMaxLatencyDurationCount: 15
-                }
-            }
+            muted: true
 
         });
 
