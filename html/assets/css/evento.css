@@ -2,7 +2,7 @@
 /* RESET Y BODY */
 /* ================================ */
 * { margin:0; padding:0; box-sizing:border-box; }
-body { font-family:'Arial',sans-serif; background:#d1d5db; color:#222; line-height:1.5; }
+body { font-family:'Arial',sans-serif; background:#9ca3af; color:#222; line-height:1.5; }
 
 /* ================================ */
 /* TOPBAR */
@@ -33,7 +33,7 @@ body { font-family:'Arial',sans-serif; background:#d1d5db; color:#222; line-heig
 /* ================================ */
 /* VIDEO AREA */
 .video-area {
-    flex:3; background:#e0e7ff; border-radius:16px; overflow:hidden;
+    flex:3; background:#6b7280; border-radius:16px; overflow:hidden;
     box-shadow:0 12px 24px rgba(0,0,0,0.12); aspect-ratio:16/9; position:relative;
 }
 
@@ -57,7 +57,7 @@ body { font-family:'Arial',sans-serif; background:#d1d5db; color:#222; line-heig
 /* ================================ */
 /* LIVE BADGE */
 #liveBadge {
-    position:absolute; top:12px; left:12px; background:#e53935; color:#fff;
+    position:absolute; top:16px; left:16px; background:#e53935; color:#fff;
     font-size:12px; font-weight:700; padding:4px 8px; border-radius:6px;
     z-index:11; display:none;
 }
@@ -65,17 +65,18 @@ body { font-family:'Arial',sans-serif; background:#d1d5db; color:#222; line-heig
 /* ================================ */
 /* FLOATING CHAT */
 #floatingChat {
-    position:absolute; bottom:12px; right:12px; width:300px; max-height:50%;
-    background:rgba(0,0,0,0.55); color:#fff; font-size:13px;
+    position:absolute; bottom:16px; right:16px; width:320px; max-height:50%;
+    background:rgba(0,0,0,0.6); color:#fff; font-size:13px;
     border-radius:12px; padding:8px; overflow-y:auto;
     z-index:12; display:flex; flex-direction:column-reverse;
+    box-shadow:0 4px 12px rgba(0,0,0,0.3);
 }
 
 /* ================================ */
 /* CONTADOR DE VIEWERS */
 #viewerCount {
-    position:absolute; top:12px; right:12px;
-    background:rgba(0,0,0,0.55); color:#fff; font-size:12px;
+    position:absolute; top:16px; right:16px;
+    background:rgba(0,0,0,0.6); color:#fff; font-size:12px;
     padding:4px 8px; border-radius:6px; z-index:12;
 }
 

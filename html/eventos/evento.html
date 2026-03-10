@@ -18,13 +18,7 @@
 
 <main class="container">
 
-    <!-- AGENDA -->
-    <aside class="agenda-area">
-        <h2>Agenda</h2>
-        <ul id="agendaLista"></ul>
-    </aside>
-
-    <!-- VIDEO -->
+    <!-- VIDEO AREA -->
     <div class="video-area">
         <video
             id="liveStream"
@@ -35,7 +29,7 @@
             playsinline
         ></video>
 
-        <!-- OVERLAY STREAM OFF (spinner limpio) -->
+        <!-- OVERLAY STREAM OFF -->
         <div id="offlineOverlay">
             <div class="spinner"></div>
             La transmisión comenzará en breve...
@@ -43,13 +37,19 @@
 
         <!-- LIVE BADGE -->
         <div id="liveBadge">EN VIVO</div>
-        
+
         <!-- FLOATING CHAT -->
         <div id="floatingChat"></div>
 
         <!-- CONTADOR DE VIEWERS -->
         <div id="viewerCount">0 espectadores</div>
     </div>
+
+    <!-- AGENDA -->
+    <aside class="agenda-area">
+        <h2>Agenda</h2>
+        <ul id="agendaLista"></ul>
+    </aside>
 
 </main>
 

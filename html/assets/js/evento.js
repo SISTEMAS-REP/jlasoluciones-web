@@ -11,10 +11,11 @@ const player = videojs('liveStream', {
 // Plugin selector de calidad HLS
 if(player.httpSourceSelector) player.httpSourceSelector();
 
+// ================================
 // ELEMENTOS DEL DOM
+// ================================
 const overlay = document.getElementById("offlineOverlay");
 const liveBadge = document.getElementById("liveBadge");
-const floatingChat = document.getElementById("floatingChat");
 const viewerCount = document.getElementById("viewerCount");
 
 let currentStreamUrl = null;
@@ -24,21 +25,6 @@ let currentStreamUrl = null;
 // ================================
 function mostrarOverlay() { if(overlay) overlay.style.display="flex"; }
 function ocultarOverlay() { if(overlay) overlay.style.display="none"; }
-
-// ================================
-// CHAT FLOTANTE
-// ================================
-function addFloatingMessage(msg, sender='Yo'){
-    if(!floatingChat) return;
-    const div = document.createElement('div');
-    div.textContent = `${sender}: ${msg}`;
-    div.style.marginBottom = '4px';
-    div.style.background = 'rgba(255,255,255,0.1)';
-    div.style.padding = '4px 8px';
-    div.style.borderRadius = '6px';
-    floatingChat.appendChild(div);
-    floatingChat.scrollTop = floatingChat.scrollHeight;
-}
 
 // ================================
 // VIEWER COUNT
@@ -104,9 +90,7 @@ window.addEventListener('load', () => {
         // STREAM
         if(data.stream) cargarStream(data.stream);
     })
-    .catch(err => {
-        console.error("Error cargando JSON del cliente:", err);
-    });
+    .catch(err => console.error("Error cargando JSON del cliente:", err));
 
     // ================================
     // EVENTOS PLAYER
@@ -118,7 +102,7 @@ window.addEventListener('load', () => {
     player.on('error', () => { mostrarOverlay(); player.error(null); });
 
     // ================================
-    // RECONEXIÓN AUTOMÁTICA
+    // RECONEXIÓN AUTOMÁTICA DISCRETA
     // ================================
     setInterval(() => {
         if(!currentStreamUrl) return;
@@ -152,8 +136,10 @@ document.addEventListener('keydown', e => {
 });
 
 // ================================
-// CHAT FLOTANTE DESDE EVENTO EXTERNO
+// REENVÍO MENSAJES EXTERNOS AL CHAT.JS
 // ================================
 window.addEventListener('message', e => {
-    if(e.data && e.data.chatMsg) addFloatingMessage(e.data.chatMsg, e.data.sender || 'Usuario');
+    if(e.data && e.data.chatMsg){
+        window.postMessage({ chatMsg: e.data.chatMsg, sender: e.data.sender }, "*");
+    }
 });
