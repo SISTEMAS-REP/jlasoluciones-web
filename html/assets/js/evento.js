@@ -10,87 +10,148 @@ window.addEventListener('load', () => {
     // CARGAR CONFIG DEL CLIENTE
     // ================================
     fetch("/clientes/" + cliente + ".json")
+
     .then(res => {
+
         if (!res.ok) throw new Error("JSON no encontrado");
+
         return res.json();
+
     })
+
     .then(data => {
 
-        // ===== TÍTULOS Y LOGO =====
+        // ================================
+        // TITULOS Y LOGO
+        // ================================
         document.getElementById("tituloPagina").textContent = data.nombre;
         document.getElementById("tituloEvento").textContent = data.nombre;
         document.getElementById("logoEmpresa").src = "/logos/" + data.logo;
 
-        // ===== AGENDA =====
+
+        // ================================
+        // AGENDA
+        // ================================
         const agendaLista = document.getElementById("agendaLista");
+
         if (agendaLista) {
+
             agendaLista.innerHTML = "";
+
             data.agenda.forEach(item => {
+
                 let li = document.createElement("li");
+
                 li.textContent = item;
+
                 agendaLista.appendChild(li);
+
             });
+
         }
 
-        // ===== INICIAR REPRODUCTOR =====
+
+        // ================================
+        // INICIAR PLAYER
+        // ================================
         const player = videojs('liveStream', {
+
             fluid: true,
             liveui: true,
             autoplay: true,
             muted: true
+
         });
 
-        player.src({
-            src: data.stream,
-            type: 'application/x-mpegURL'
-        });
+        const overlay = document.getElementById("offlineOverlay");
 
-        const btnLive = document.querySelector('.btn-live');
-        const offlineMsg = document.getElementById('offlineMsg');
 
-        console.log("btnLive encontrado:", btnLive);
+        function cargarStream(){
 
-        // ===== ERROR / OFFLINE =====
-        player.on('error', function() {
-            if (offlineMsg) {
-                offlineMsg.innerHTML =
-                    "<div class='offline-message'>🚫 La transmisión no está disponible.<br>Por favor intenta nuevamente más tarde.</div>";
+            player.src({
+
+                src: data.stream,
+                type: 'application/x-mpegURL'
+
+            });
+
+        }
+
+        cargarStream();
+
+
+        // ================================
+        // CUANDO EMPIEZA STREAM
+        // ================================
+        player.on('playing', function(){
+
+            console.log("stream activo");
+
+            if(overlay){
+
+                overlay.style.display = "none";
+
             }
+
         });
 
-        // ===== BOTÓN VOLVER AL DIRECTO =====
-        player.on('timeupdate', function () {
-            if (!btnLive) return;
 
-            if (player.liveTracker && !player.liveTracker.atLiveEdge()) {
-                btnLive.style.display = "inline-block";
-            } else {
-                btnLive.style.display = "none";
+        // ================================
+        // STREAM OFF
+        // ================================
+        player.on('error', function(){
+
+            console.log("stream offline");
+
+            if(overlay){
+
+                overlay.style.display = "flex";
+
             }
+
         });
 
-        window.volverAlDirecto = function() {
-            if (player.liveTracker) {
-                player.liveTracker.seekToLiveEdge();
-            }
-        };
 
-        // ===== VIEWERS HEARTBEAT =====
+        // ================================
+        // REINTENTAR CADA 15s
+        // ================================
         setInterval(() => {
-            fetch('/stream/viewer_ping.php').catch(err => console.warn(err));
-        }, 5000);
 
-        console.log("estado btnLive:", btnLive);
+            console.log("intentando reconectar stream");
+
+            cargarStream();
+
+            player.load();
+
+        },15000);
+
+
+        // ================================
+        // VIEWERS HEARTBEAT
+        // ================================
+        setInterval(() => {
+
+            fetch('/stream/viewer_ping.php')
+
+            .catch(err => console.warn(err));
+
+        },5000);
+
 
     })
+
     .catch(err => {
+
         console.error(err);
 
         const titulo = document.getElementById("tituloEvento");
+
         if (titulo) titulo.textContent = "Evento";
 
         const agendaLista = document.getElementById("agendaLista");
+
         if (agendaLista) agendaLista.innerHTML = "";
+
     });
 
 });
