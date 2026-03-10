@@ -1,90 +1,145 @@
-window.addEventListener('load', () => {
-    const chatArea = document.getElementById('floatingChat');
-    if (!chatArea) return;
+// ================================
+// PLAYER PROFESIONAL COMPLETO
+// ================================
+const player = videojs('liveStream', {
+    fluid: true,
+    liveui: true,
+    autoplay: true,
+    muted: true
+});
 
-    // ================================
-    // ESTILO FLUOTANTE
-    // ================================
-    chatArea.style.position = 'fixed';
-    chatArea.style.bottom = '12px';
-    chatArea.style.right = '12px';
-    chatArea.style.width = '300px';
-    chatArea.style.maxHeight = '50%';
-    chatArea.style.background = 'rgba(0,0,0,0.55)';
-    chatArea.style.color = '#fff';
-    chatArea.style.borderRadius = '12px';
-    chatArea.style.padding = '8px';
-    chatArea.style.display = 'flex';
-    chatArea.style.flexDirection = 'column-reverse';
-    chatArea.style.zIndex = '1000';
-    chatArea.style.overflow = 'hidden';
-    chatArea.style.fontSize = '13px';
+// Plugin selector de calidad HLS
+if(player.httpSourceSelector) player.httpSourceSelector();
 
-    // contenedor de mensajes
-    const messagesContainer = document.createElement('div');
-    messagesContainer.style.flex = '1';
-    messagesContainer.style.overflowY = 'auto';
-    messagesContainer.style.display = 'flex';
-    messagesContainer.style.flexDirection = 'column-reverse';
-    messagesContainer.style.padding = '4px 0';
-    chatArea.appendChild(messagesContainer);
+// ================================
+// ELEMENTOS DEL DOM
+// ================================
+const overlay = document.getElementById("offlineOverlay");
+const liveBadge = document.getElementById("liveBadge");
+const viewerCount = document.getElementById("viewerCount");
 
-    // input + botón enviar
-    const inputDiv = document.createElement('div');
-    inputDiv.style.display = 'flex';
-    inputDiv.style.marginTop = '4px';
+let currentStreamUrl = null;
 
-    const input = document.createElement('input');
-    input.type = 'text';
-    input.placeholder = 'Escribe tu mensaje...';
-    input.style.flex = '1';
-    input.style.padding = '6px 8px';
-    input.style.borderRadius = '6px';
-    input.style.border = '1px solid rgba(255,255,255,0.4)';
-    input.style.background = 'rgba(0,0,0,0.3)';
-    input.style.color = '#fff';
-    inputDiv.appendChild(input);
+// ================================
+// FUNCIONES OVERLAY / ALERT
+// ================================
+function mostrarOverlay() { if(overlay) overlay.style.display="flex"; }
+function ocultarOverlay() { if(overlay) overlay.style.display="none"; }
 
-    const btn = document.createElement('button');
-    btn.textContent = 'Enviar';
-    btn.style.marginLeft = '6px';
-    btn.style.padding = '6px 10px';
-    btn.style.borderRadius = '6px';
-    btn.style.border = 'none';
-    btn.style.background = '#3b82f6';
-    btn.style.color = '#fff';
-    btn.style.cursor = 'pointer';
-    inputDiv.appendChild(btn);
+// ================================
+// VIEWER COUNT
+// ================================
+function updateViewers(count){
+    if(!viewerCount) return;
+    viewerCount.textContent = `${count} espectadores`;
+}
 
-    chatArea.appendChild(inputDiv);
+// ================================
+// CARGAR STREAM
+// ================================
+function cargarStream(url){
+    if(!url || url === currentStreamUrl) return;
+    currentStreamUrl = url;
+    player.src({ src: url, type: 'application/x-mpegURL' });
+    player.load();
+}
 
-    // ================================
-    // FUNCION AGREGAR MENSAJE
-    // ================================
-    function addMessage(msg, sender='Yo'){
-        const div = document.createElement('div');
-        div.textContent = `${sender}: ${msg}`;
-        div.style.margin = '2px 0';
-        div.style.padding = '4px 6px';
-        div.style.background = 'rgba(255,255,255,0.1)';
-        div.style.borderRadius = '6px';
-        messagesContainer.insertBefore(div, messagesContainer.firstChild);
-        messagesContainer.scrollTop = messagesContainer.scrollHeight;
+// ================================
+// CLICK CENTRAL PLAY/PAUSE
+// ================================
+player.el().addEventListener('click', e => {
+    if(!e.target.closest('.vjs-control')){
+        if(player.paused()) player.play();
+        else player.pause();
     }
+});
 
-    // enviar mensaje
-    btn.addEventListener('click', () => {
-        if(input.value.trim() === '') return;
-        addMessage(input.value);
-        input.value = '';
-    });
+// ================================
+// CAPTURAR SUBDOMINIO Y CARGAR JSON
+// ================================
+window.addEventListener('load', () => {
+    const host = window.location.hostname;
+    const cliente = host.split('.')[0]; // ej: demo.jlasoluciones.pe -> demo
 
-    input.addEventListener('keypress', e => {
-        if(e.key === 'Enter') btn.click();
-    });
+    fetch(`/clientes/${cliente}.json`)
+    .then(res => {
+        if(!res.ok) throw new Error("JSON no encontrado");
+        return res.json();
+    })
+    .then(data => {
+        // TITULOS Y LOGO
+        const tituloPagina = document.getElementById("tituloPagina");
+        const tituloEvento = document.getElementById("tituloEvento");
+        const logoEmpresa = document.getElementById("logoEmpresa");
 
-    // recibir mensaje externo
-    window.addEventListener('message', e => {
-        if(e.data && e.data.chatMsg) addMessage(e.data.chatMsg, e.data.sender || 'Usuario');
-    });
+        if(tituloPagina) tituloPagina.textContent = data.nombre;
+        if(tituloEvento) tituloEvento.textContent = data.nombre;
+        if(logoEmpresa) logoEmpresa.src = `/logos/${data.logo}`;
+
+        // AGENDA
+        const agendaLista = document.getElementById("agendaLista");
+        if(agendaLista && Array.isArray(data.agenda)){
+            agendaLista.innerHTML = "";
+            data.agenda.forEach(item => {
+                const li = document.createElement("li");
+                li.textContent = item;
+                agendaLista.appendChild(li);
+            });
+        }
+
+        // STREAM
+        if(data.stream) cargarStream(data.stream);
+    })
+    .catch(err => console.error("Error cargando JSON del cliente:", err));
+
+    // ================================
+    // EVENTOS PLAYER
+    // ================================
+    player.on('playing', () => { ocultarOverlay(); if(liveBadge) liveBadge.style.display='block'; });
+    player.on('pause', () => { if(liveBadge) liveBadge.style.display='none'; });
+    player.on('waiting', () => { mostrarOverlay(); });
+    player.on('stalled', () => { mostrarOverlay(); });
+    player.on('error', () => { mostrarOverlay(); player.error(null); });
+
+    // ================================
+    // RECONEXIÓN AUTOMÁTICA DISCRETA
+    // ================================
+    setInterval(() => {
+        if(!currentStreamUrl) return;
+        const stuck = player.readyState() < 3 || player.paused();
+        if(stuck || player.error()){
+            console.log("Reconectando stream...");
+            mostrarOverlay();
+            cargarStream(currentStreamUrl);
+        }
+    }, 5000);
+
+    // ================================
+    // HEARTBEAT / VIEWERS
+    // ================================
+    setInterval(() => {
+        fetch('/stream/viewer_ping.php').catch(err => console.warn(err));
+        fetch('/stream/viewer_count.php')
+        .then(r => r.json())
+        .then(d => updateViewers(d.count))
+        .catch(()=>{});
+    }, 5000);
+});
+
+// ================================
+// HOTKEYS
+// ================================
+document.addEventListener('keydown', e => {
+    if(e.code === 'Space'){ e.preventDefault(); if(player.paused()) player.play(); else player.pause(); }
+    if(e.code === 'KeyM'){ player.muted(!player.muted()); }
+    if(e.code === 'KeyF'){ if(player.isFullscreen()) player.exitFullscreen(); else player.requestFullscreen(); }
+});
+
+// ================================
+// REENVÍO MENSAJES EXTERNOS AL CHAT.JS
+// ================================
+window.addEventListener('message', e => {
+    if(e.data && e.data.chatMsg){
+        window.postMessage({ chatMsg: e.data.chatMsg, sender: e.data.sender }, "*");
+    }
 });

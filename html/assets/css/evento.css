@@ -41,18 +41,28 @@ body { font-family:'Arial',sans-serif; background:#9ca3af; color:#222; line-heig
 /* OVERLAY STREAM OFF */
 #offlineOverlay {
     position:absolute; top:0; left:0; width:100%; height:100%;
-    background:rgba(0,0,0,0.75); color:#fff;
-    display:flex; align-items:center; justify-content:center; text-align:center;
-    font-size:15px; padding:20px; z-index:10; flex-direction:column;
+    background:rgba(0,0,0,0.75);
+    color:#fff;
+    display:flex; flex-direction:column;
+    justify-content:center; align-items:center;
+    text-align:center;
+    font-size:15px;
+    padding:20px;
+    z-index:10;
 }
-.spinner {
+
+#offlineOverlay .spinner {
     border:4px solid rgba(255,255,255,0.25);
-    border-top:4px solid #fff;
+    border-top:4px solid #3b82f6; /* color azul profesional */
     border-radius:50%;
     width:36px; height:36px;
-    animation:spin 1s linear infinite; margin-bottom:8px;
+    animation:spin 1s linear infinite;
+    margin-bottom:8px;
 }
-@keyframes spin { 0%{transform:rotate(0deg);} 100%{transform:rotate(360deg);} }
+@keyframes spin { 
+    0%{transform:rotate(0deg);} 
+    100%{transform:rotate(360deg);} 
+}
 
 /* ================================ */
 /* LIVE BADGE */
@@ -82,16 +92,26 @@ body { font-family:'Arial',sans-serif; background:#9ca3af; color:#222; line-heig
 
 /* ================================ */
 /* RECURSOS */
-.resources-area { max-width:1600px; margin:20px auto 40px auto; background:#fff; border-radius:12px; padding:12px; box-shadow:0 4px 12px rgba(0,0,0,0.08); }
+.resources-area {
+    max-width:1600px; margin:20px auto 40px auto; background:#fff;
+    border-radius:12px; padding:12px;
+    box-shadow:0 4px 12px rgba(0,0,0,0.08);
+}
 .tabs { display:flex; gap:12px; margin-bottom:12px; }
-.tab-button { padding:6px 12px; border:none; border-radius:8px; background:#e2e8f0; cursor:pointer; font-weight:600; transition:0.2s; }
+.tab-button {
+    padding:6px 12px; border:none; border-radius:8px;
+    background:#e2e8f0; cursor:pointer; font-weight:600; transition:0.2s;
+}
 .tab-button.active { background:#3b82f6; color:#fff; }
 .tab-content ul { list-style:none; }
 .tab-content li { padding:6px 0; border-bottom:1px solid #eee; font-size:14px; color:#334155; }
 
 /* ================================ */
 /* FOOTER */
-footer { text-align:center; padding:12px; background:#1f2937; color:#fff; font-size:14px; margin-top:20px; border-top-left-radius:12px; border-top-right-radius:12px; }
+footer {
+    text-align:center; padding:12px; background:#1f2937; color:#fff; font-size:14px;
+    margin-top:20px; border-top-left-radius:12px; border-top-right-radius:12px;
+}
 
 /* ================================ */
 /* RESPONSIVE */
