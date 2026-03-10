@@ -120,11 +120,15 @@ window.addEventListener('load', () => {
         // ================================
         setInterval(() => {
 
-            console.log("intentando reconectar stream");
+            if (player.paused() || player.error()) {
 
-            cargarStream();
+                console.log("intentando reconectar stream");
 
-            player.load();
+                cargarStream();
+
+                player.load();
+
+            }
 
         },15000);
 
