@@ -120,3 +120,8 @@ footer {
     .agenda-area, .video-area{ width:100%; margin-bottom:16px; }
     .resources-area{ width:95%; margin:12px auto; height:auto; }
 }
+
+/* Oculta spinner de Video.js */
+.video-js .vjs-loading-spinner {
+    display: none !important;
+}
