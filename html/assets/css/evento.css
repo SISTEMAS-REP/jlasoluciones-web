@@ -12,7 +12,7 @@
 /* ================================ */
 body {
     font-family: 'Arial', sans-serif;
-    background: #d1d5db; /* gris más oscuro */
+    background: #d1d5db; /* gris */
     color: #222;
     line-height: 1.5;
 }
@@ -91,11 +91,11 @@ body {
     overflow: hidden;
     box-shadow: 0 12px 24px rgba(0,0,0,0.12);
     aspect-ratio: 16/9;
-    position: relative; /* IMPORTANTE para el overlay */
+    position: relative; /* importante para overlays */
 }
 
 /* ================================ */
-/* OVERLAY CUANDO NO HAY STREAM */
+/* OVERLAY STREAM OFF */
 /* ================================ */
 #offlineOverlay {
     position: absolute;
@@ -117,6 +117,104 @@ body {
 
     z-index: 10;
     flex-direction: column;
+}
+
+.spinner {
+    border: 4px solid rgba(255,255,255,0.25);
+    border-top: 4px solid #fff;
+    border-radius: 50%;
+    width: 36px;
+    height: 36px;
+    animation: spin 1s linear infinite;
+    margin-bottom: 8px;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* ================================ */
+/* LIVE BADGE */
+/* ================================ */
+#liveBadge {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    background: #e53935;
+    color: #fff;
+    font-size:12px;
+    font-weight:700;
+    padding:4px 8px;
+    border-radius:6px;
+    z-index:11;
+    display:none;
+}
+
+/* ================================ */
+/* BRANDING LOGO */
+/* ================================ */
+#brandingLogo {
+    position: absolute;
+    bottom: 12px;
+    right: 12px;
+    width: 80px;
+    opacity:0.7;
+    z-index:11;
+}
+
+/* ================================ */
+/* CHAT FLOTANTE */
+/* ================================ */
+#floatingChat {
+    position: absolute;
+    bottom: 12px;
+    right: 12px;
+    width: 300px;
+    max-height: 50%;
+    background: rgba(0,0,0,0.55);
+    color:#fff;
+    font-size:13px;
+    border-radius:12px;
+    padding:8px;
+    overflow-y:auto;
+    z-index:12;
+    display:flex;
+    flex-direction:column-reverse;
+}
+
+/* ================================ */
+/* CONTADOR DE VIEWERS */
+/* ================================ */
+#viewerCount {
+    position:absolute;
+    top:12px;
+    right:12px;
+    background: rgba(0,0,0,0.55);
+    color:#fff;
+    font-size:12px;
+    padding:4px 8px;
+    border-radius:6px;
+    z-index:12;
+}
+
+/* ================================ */
+/* ALERTAS DE RECONEXIÓN */
+/* ================================ */
+#reconnectAlert {
+    position:absolute;
+    top:50%;
+    left:50%;
+    transform: translate(-50%,-50%);
+    background: rgba(255,69,0,0.85);
+    color:#fff;
+    font-weight:700;
+    padding:10px 16px;
+    border-radius:8px;
+    z-index:13;
+    display:none;
+    font-size:14px;
+    text-align:center;
 }
 
 /* ================================ */
@@ -196,22 +294,18 @@ footer {
 /* RESPONSIVE */
 /* ================================ */
 @media (max-width: 900px) {
-
     .container {
         flex-direction: column;
     }
-
     .agenda-area,
     .video-area {
         width: 100%;
         margin-bottom: 16px;
     }
-
     .chat-area,
     .resources-area {
         width: 95%;
         margin: 12px auto;
         height: auto;
     }
-
 }

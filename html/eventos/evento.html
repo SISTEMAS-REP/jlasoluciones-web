@@ -1,41 +1,31 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title id="tituloPagina">Evento</title>
 
 <link href="https://vjs.zencdn.net/8.6.1/video-js.css" rel="stylesheet">
 <link rel="stylesheet" href="/assets/css/evento.css">
 
 </head>
-
 <body>
 
 <header class="topbar">
-
     <img id="logoEmpresa" class="logo" alt="Logo Empresa">
-
     <h1 id="tituloEvento"></h1>
-
 </header>
 
 <main class="container">
 
     <!-- AGENDA -->
     <aside class="agenda-area">
-
         <h2>Agenda</h2>
-
         <ul id="agendaLista"></ul>
-
     </aside>
 
     <!-- VIDEO -->
     <div class="video-area">
-
         <video
             id="liveStream"
             class="video-js vjs-big-play-centered"
@@ -47,51 +37,50 @@
 
         <!-- OVERLAY STREAM OFF -->
         <div id="offlineOverlay">
-
+            <div class="spinner"></div>
             🔴 La transmisión comenzará en breve 🔴
-
         </div>
 
+        <!-- LIVE BADGE -->
+        <div id="liveBadge">EN VIVO</div>
+
+        <!-- BRANDING -->
+        <img id="brandingLogo" src="/logos/logo-peque.png" alt="Branding">
+
+        <!-- CHAT FLOTANTE -->
+        <div id="floatingChat"></div>
+
+        <!-- CONTADOR DE VIEWERS -->
+        <div id="viewerCount">0 espectadores</div>
+
+        <!-- ALERTAS RECONEXIÓN -->
+        <div id="reconnectAlert">Reconectando stream...</div>
     </div>
 
 </main>
 
-<!-- CHAT -->
+<!-- CHAT PRINCIPAL -->
 <div class="chat-area" id="chatArea"></div>
 
 <!-- RECURSOS -->
 <div class="resources-area">
-
     <div class="tabs">
-
-        <button class="tab-button active" data-tab="grabaciones">
-            Grabaciones
-        </button>
-
-        <button class="tab-button" data-tab="materiales">
-            Materiales
-        </button>
-
+        <button class="tab-button active" data-tab="grabaciones">Grabaciones</button>
+        <button class="tab-button" data-tab="materiales">Materiales</button>
     </div>
-
     <div class="tab-content" id="grabaciones">
         <ul id="recordingsList"></ul>
     </div>
-
     <div class="tab-content" id="materiales" style="display:none;">
         <ul id="materialsList"></ul>
     </div>
-
 </div>
 
 <footer>
-
     © 2026 JLA Solutions Labs. Todos los derechos reservados.
-
 </footer>
 
 <script src="https://vjs.zencdn.net/8.6.1/video.min.js"></script>
-
 <script src="/assets/js/evento.js"></script>
 <script src="/assets/js/chat.js"></script>
 <script src="/assets/js/resources.js"></script>
