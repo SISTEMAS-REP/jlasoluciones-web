@@ -6,6 +6,9 @@ const player = videojs('liveStream', {
     liveui: true,
     autoplay: true,
     muted: true
+}, function() {
+    // this es el player
+    this.controlBar.getChild('LiveDisplay').el().textContent = "EN DIRECTO";
 });
 
 // Plugin selector de calidad HLS
