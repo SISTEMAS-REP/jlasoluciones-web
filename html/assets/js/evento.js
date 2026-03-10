@@ -103,6 +103,9 @@ window.addEventListener('load', () => {
 
             console.log("stream offline");
 
+            // ELIMINA ERROR DE VIDEO.JS
+            player.error(null);
+
             if(overlay){
 
                 overlay.style.display = "flex";
