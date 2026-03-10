@@ -1,5 +1,5 @@
 // ================================
-// INICIAR PLAYER INMEDIATAMENTE
+// PLAYER PROFESIONAL INMEDIATO
 // ================================
 const player = videojs('liveStream', {
     fluid: true,
@@ -9,16 +9,31 @@ const player = videojs('liveStream', {
 });
 
 const overlay = document.getElementById("offlineOverlay");
+let currentStreamUrl = null; // track del stream actual
 
-// Función para cargar o recargar el stream
+function mostrarOverlay() { if (overlay) overlay.style.display = "flex"; }
+function ocultarOverlay() { if (overlay) overlay.style.display = "none"; }
+
 function cargarStream(url) {
-    if (!url) return;
-    player.src({
-        src: url,
-        type: 'application/x-mpegURL'
-    });
+    if (!url || url === currentStreamUrl) return; // no recargar si es el mismo
+    currentStreamUrl = url;
+    player.src({ src: url, type: 'application/x-mpegURL' });
     player.load();
 }
+
+// ================================
+// CLICK CENTRAL PARA PAUSE/PLAY
+// ================================
+player.el().addEventListener('click', function (e) {
+    // Solo si no clickeas sobre los controles
+    if (!e.target.closest('.vjs-control')) {
+        if (player.paused()) {
+            player.play();
+        } else {
+            player.pause();
+        }
+    }
+});
 
 // ================================
 // DETECTAR SUBDOMINIO Y CARGAR CONFIG
@@ -33,9 +48,7 @@ window.addEventListener('load', () => {
         return res.json();
     })
     .then(data => {
-        // ================================
-        // ACTUALIZAR TITULOS Y LOGO
-        // ================================
+        // TITULOS Y LOGO
         const tituloPagina = document.getElementById("tituloPagina");
         const tituloEvento = document.getElementById("tituloEvento");
         const logoEmpresa = document.getElementById("logoEmpresa");
@@ -44,9 +57,7 @@ window.addEventListener('load', () => {
         if (tituloEvento) tituloEvento.textContent = data.nombre;
         if (logoEmpresa) logoEmpresa.src = `/logos/${data.logo}`;
 
-        // ================================
-        // ACTUALIZAR AGENDA
-        // ================================
+        // AGENDA
         const agendaLista = document.getElementById("agendaLista");
         if (agendaLista && Array.isArray(data.agenda)) {
             agendaLista.innerHTML = "";
@@ -57,12 +68,8 @@ window.addEventListener('load', () => {
             });
         }
 
-        // ================================
-        // CARGAR STREAM
-        // ================================
-        if (data.stream) {
-            cargarStream(data.stream);
-        }
+        // CARGAR STREAM SOLO SI CAMBIA
+        if (data.stream) cargarStream(data.stream);
     })
     .catch(err => {
         console.error("Error cargando JSON del cliente:", err);
@@ -77,28 +84,36 @@ window.addEventListener('load', () => {
     // ================================
     player.on('playing', () => {
         console.log("Stream activo");
-        if (overlay) overlay.style.display = "none";
+        ocultarOverlay();
     });
 
     player.on('error', () => {
-        console.log("Stream offline");
-        player.error(null); // limpia el error de Video.js
-        if (overlay) overlay.style.display = "flex";
+        console.log("Stream error");
+        player.error(null);
+        mostrarOverlay();
+    });
+
+    player.on('waiting', () => {
+        console.log("Stream esperando...");
+        mostrarOverlay();
+    });
+
+    player.on('stalled', () => {
+        console.log("Stream bloqueado...");
+        mostrarOverlay();
     });
 
     // ================================
-    // REINTENTAR CONEXIÓN SOLO SI FALLA STREAM
+    // REINTENTO INTELIGENTE ULTRA RÁPIDO
     // ================================
     setInterval(() => {
-        const tech = player.tech({ IWillNotUseThisInPlugins: true });
-        const currentSrc = player.src() ? player.src().src : null;
-
-        // Solo recarga si hay error o si el stream está detenido
-        if ((player.error()) || (player.paused() && player.currentTime() > 0 && !player.ended())) {
-            console.log("Intentando reconectar stream");
-            if (currentSrc) cargarStream(currentSrc);
+        if (!currentStreamUrl) return;
+        const stuck = player.readyState() < 3 || player.paused(); // <3 = buffer no listo
+        if (stuck || player.error()) {
+            console.log("Reconectando stream profesional...");
+            cargarStream(currentStreamUrl);
         }
-    }, 15000);
+    }, 3000); // cada 3s si hay problema → reconexión rápida sin molestar
 
     // ================================
     // VIEWERS HEARTBEAT
