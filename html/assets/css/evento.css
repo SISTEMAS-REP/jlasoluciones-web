@@ -125,3 +125,7 @@ footer {
 .video-js .vjs-loading-spinner {
     display: none !important;
 }
+
+.video-js .vjs-big-play-button {
+    display: none !important;
+}
